@@ -43,9 +43,9 @@ class MilvusClient:
         self.top_k = VECTOR_SEARCH_TOP_K
         self.search_params = {"metric_type": "L2", "params": {"nprobe": 256}}
         if mode == 'local':
-            self.create_params = {"metric_type": "L2", "index_type": "IVF_FLAT", "params": {"nlist": 2048}}
+            self.create_params = {"metric_type": "L2", "index_type": "DISKANN", "params": {"nlist": 2048}}
         else:
-            self.create_params = {"metric_type": "L2", "index_type": "GPU_IVF_FLAT", "params": {"nlist": 2048}}
+            self.create_params = {"metric_type": "L2", "index_type": "DISKANN", "params": {"nlist": 2048}}
         self.last_init_ts = time.time() - 100  # 减去100保证最初的init不会被拒绝
         self.init()
 
