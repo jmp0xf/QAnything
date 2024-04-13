@@ -125,7 +125,7 @@ echo "GPU ID: $gpu_id1, $gpu_id2"
 gpu_model=$(nvidia-smi --query-gpu=gpu_name --format=csv,noheader,nounits -i $gpu_id1)
 # compute_capability=$(jq -r ".[\"$gpu_model\"]" /workspace/qanything_local/scripts/gpu_capabilities.json)
 # 执行Python脚本，传入设备号，并捕获输出
-compute_capability=$(python3 scripts/get_cuda_capability.py $gpu_id1)
+compute_capability=$(python3 /workspace/qanything_local/scripts/get_cuda_capability.py $gpu_id1)
 status=$?  # 获取Python脚本的退出状态码
 if [ $status -ne 0 ]; then
     echo "您的显卡型号 $gpu_model 获取算力时出错，请联系技术支持。"
@@ -165,9 +165,6 @@ echo "The paddleocr model will start on $gpu_id2 GPU"
 CUDA_VISIBLE_DEVICES=$gpu_id2 nohup python3 -u qanything_kernel/dependent_server/ocr_serve/ocr_server.py > /workspace/qanything_local/logs/debug_logs/ocr_server.log 2>&1 &
 echo "The ocr service is ready! (3/8)"
 echo "OCR服务已就绪! (3/8)"
-
-pip install third_party/es/whl/elastic_transport-8.12.0-py3-none-any.whl
-pip install third_party/es/whl/elasticsearch-8.12.1-py3-none-any.whl
 
 nohup python3 -u qanything_kernel/qanything_server/sanic_api.py --mode "online" > /workspace/qanything_local/logs/debug_logs/sanic_api.log 2>&1 &
 
