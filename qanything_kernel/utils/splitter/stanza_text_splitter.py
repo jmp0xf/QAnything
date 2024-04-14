@@ -73,7 +73,7 @@ class StanzaTextSplitter(CharacterTextSplitter):
         if self.pdf:
             text = re.sub(r"\n{3,}", r"\n", text)
             text = re.sub('\s', " ", text)
-            text = re.sub("\n\n", "", text)
+            text = re.sub("\n\n", "\n", text)
 
         detected_lang = detect(text.replace('\n', ' ').replace('\r', ' '))['lang']
         if detected_lang == 'zh':
