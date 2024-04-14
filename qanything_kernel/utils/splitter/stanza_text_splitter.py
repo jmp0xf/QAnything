@@ -6,6 +6,7 @@ import torch
 from ftlangdetect import detect
 from opencc import OpenCC
 from difflib import SequenceMatcher
+import random
 
 def normalize_whitespace(text):
     # 将连续的非换行符的空字符转为一个空格
@@ -16,17 +17,28 @@ def normalize_whitespace(text):
     text = text.strip()
     return text
 
-def detect_chinese_script(text):
+def detect_chinese_script(text, sample_size=4096):
+    # 创建转换器
     s2t = OpenCC('s2t')
     t2s = OpenCC('t2s')
 
-    simplified_text = t2s.convert(text)
-    traditional_text = s2t.convert(text)
+    # 如果文本长度大于设定的样本大小，则进行随机采样
+    if len(text) > sample_size:
+        sample_indexes = random.sample(range(len(text)), sample_size)
+        sampled_text = ''.join([text[i] for i in sorted(sample_indexes)])
+    else:
+        sampled_text = text
 
-    simplified_ratio = SequenceMatcher(None, text, simplified_text).ratio()
-    traditional_ratio = SequenceMatcher(None, text, traditional_text).ratio()
+    # 对采样后的文本进行简繁转换
+    simplified_text = t2s.convert(sampled_text)
+    traditional_text = s2t.convert(sampled_text)
 
-    if  traditional_ratio<simplified_ratio:
+    # 计算转换后与原文本的相似度
+    simplified_ratio = SequenceMatcher(None, sampled_text, simplified_text).ratio()
+    traditional_ratio = SequenceMatcher(None, sampled_text, traditional_text).ratio()
+
+    # 根据相似度判断文本是简体还是繁体
+    if traditional_ratio < simplified_ratio:
         return "zh-hans"
     else:
         return "zh-hant"
