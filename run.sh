@@ -51,7 +51,7 @@ Note: You can choose the most suitable Service Startup Command based on your own
   exit 1
 }
 
-# 检查master分支是否有新代码
+# 检查enhanced分支是否有新代码
 # 定义颜色
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -64,24 +64,24 @@ print_important_notice() {
     echo -e "${YELLOW}******************** 重要提示 ********************${NC}"
     echo -e "${YELLOW}====================================================${NC}"
     echo
-    echo -e "${RED}检测到master分支有新的代码更新，如需体验最新的功能，可以手动执行 git pull 来同步最新的代码。${NC}"
+    echo -e "${RED}检测到enhanced分支有新的代码更新，如需体验最新的功能，可以手动执行 git pull 来同步最新的代码。${NC}"
     echo
     sleep 5
 }
 
 # 获取最新的远程仓库信息
-git fetch origin master
+git fetch origin enhanced
 
-# 获取本地master分支的最新提交
-LOCAL=$(git rev-parse master)
-# 获取远程master分支的最新提交
-REMOTE=$(git rev-parse origin/master)
+# 获取本地enhanced分支的最新提交
+LOCAL=$(git rev-parse enhanced)
+# 获取远程enhanced分支的最新提交
+REMOTE=$(git rev-parse origin/enhanced)
 
 if [ $LOCAL != $REMOTE ]; then
     # 本地分支与远程分支不一致，需要更新
     print_important_notice
 else
-    echo -e "${GREEN}当前master分支已是最新，无需更新。${NC}"
+    echo -e "${GREEN}当前enhanced分支已是最新，无需更新。${NC}"
 fi
 
 
