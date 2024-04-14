@@ -2,6 +2,7 @@ from langchain.text_splitter import CharacterTextSplitter
 import re
 from typing import List
 import stanza
+import torch
 from ftlangdetect import detect
 from opencc import OpenCC
 from difflib import SequenceMatcher
@@ -53,7 +54,7 @@ class StanzaTextSplitter(CharacterTextSplitter):
     def get_pipeline(cls, lang):
         if lang not in cls.pipelines:
             stanza.download(lang)
-            cls.pipelines[lang] = stanza.Pipeline(lang, processors='tokenize')
+            cls.pipelines[lang] = stanza.Pipeline(lang, processors='tokenize', use_gpu=torch.cuda.is_available())
         return cls.pipelines[lang]
 
     def split_text(self, text: str) -> List[str]:
