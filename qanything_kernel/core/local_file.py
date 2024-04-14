@@ -11,7 +11,7 @@ from langchain.document_loaders import UnstructuredPowerPointLoader
 from qanything_kernel.utils.loader.csv_loader import CSVLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from qanything_kernel.utils.custom_log import debug_logger, qa_logger
-from qanything_kernel.utils.splitter import ChineseTextSplitter
+from qanything_kernel.utils.splitter import StanzaTextSplitter as ChineseTextSplitter
 from qanything_kernel.utils.loader import UnstructuredPaddleImageLoader, UnstructuredPaddlePDFLoader
 from qanything_kernel.utils.splitter import zh_title_enhance
 from sanic.request import File

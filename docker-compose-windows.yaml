@@ -101,7 +101,7 @@ services:
 
   qanything_local:
     container_name: qanything-container-local
-    image: freeren/qanything-win:v1.2.2
+    image: jmp0xf/qanything-win:v1.2.2
     # runtime: nvidia
     deploy:
       resources:
