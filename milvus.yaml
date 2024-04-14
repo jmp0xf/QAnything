@@ -305,11 +305,11 @@ queryNode:
     chunkRows: 128 # The number of vectors in a chunk.
     interimIndex: # build a vector temperate index for growing segment or binlog to accelerate search
       enableIndex: true
-      nlist: 128 # segment index nlist
-      nprobe: 16 # nprobe to search segment, based on your accuracy requirement, must smaller than nlist
+      nlist: 2048 # segment index nlist
+      nprobe: 256 # nprobe to search segment, based on your accuracy requirement, must smaller than nlist
       memExpansionRate: 1.15 # the ratio of building interim index memory usage to raw data
   loadMemoryUsageFactor: 1 # The multiply factor of calculating the memory usage while loading segments
-  enableDisk: false # enable querynode load disk index, and search on disk index
+  enableDisk: true # enable querynode load disk index, and search on disk index
   maxDiskUsagePercentage: 95
   cache:
     enabled: true # deprecated, TODO: remove it
@@ -396,8 +396,8 @@ dataCoord:
     balanceSilentDuration: 300 # The duration before the channelBalancer on datacoord to run
     balanceInterval: 360 #The interval for the channelBalancer on datacoord to check balance status
   segment:
-    maxSize: 512 # Maximum size of a segment in MB
-    diskSegmentMaxSize: 2048 # Maximum size of a segment in MB for collection which has Disk index
+    maxSize: 2048 # Maximum size of a segment in MB
+    diskSegmentMaxSize: 4096 # Maximum size of a segment in MB for collection which has Disk index
     sealProportion: 0.23
     # The time of the assignment expiration in ms
     # Warning! this parameter is an expert variable and closely related to data integrity. Without specific
@@ -549,11 +549,11 @@ common:
     middlePriority: 5 # This parameter specify how many times the number of threads is the number of cores in middle priority thread pool
     lowPriority: 1 # This parameter specify how many times the number of threads is the number of cores in low priority thread pool
   DiskIndex:
-    MaxDegree: 56
-    SearchListSize: 100
-    PQCodeBudgetGBRatio: 0.125
+    MaxDegree: 64
+    SearchListSize: 150
+    PQCodeBudgetGBRatio: 0.15
     BuildNumThreadsRatio: 1
-    SearchCacheBudgetGBRatio: 0.1
+    SearchCacheBudgetGBRatio: 0.15
     LoadNumThreadRatio: 8
     BeamWidthRatio: 4
   consistencyLevelUsedInDelete: "Bounded"
